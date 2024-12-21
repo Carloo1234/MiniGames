@@ -9,7 +9,9 @@ public class PlayerHoop : MonoBehaviour
     [SerializeField] float rotationPower;
     [SerializeField] DrawTrajectory trajectoryRenderer;
     [SerializeField] float clampMagnitude;
-    [SerializeField] AudioSource hoopRingSound;
+    [SerializeField] AudioSource hoopHitSound;
+    [SerializeField] AudioSource ballShootSound;
+    [SerializeField] AudioSource ballHitNetSound;
     Rigidbody2D rb;
     SpriteRenderer playersSprite;
 
@@ -77,7 +79,11 @@ public class PlayerHoop : MonoBehaviour
         MakeDynamic();
         Vector2 shootDirection = startMousePos - endMousePos;
         rb.AddForce(Vector3.ClampMagnitude((shootDirection * shootPower), clampMagnitude), ForceMode2D.Impulse);
-        int randNum = Random.Range(1, 11);
+        ballShootSound.volume = (shootDirection * shootPower).magnitude / clampMagnitude;
+        Debug.Log((shootDirection * shootPower).magnitude / clampMagnitude);
+        ballShootSound.Stop();
+        ballShootSound.Play();
+        int randNum = UnityEngine.Random.Range(1, 11);
         if (randNum >= 5)
         {
             randNum = -1;
@@ -140,8 +146,8 @@ public class PlayerHoop : MonoBehaviour
     {
         if(collision.gameObject.tag == "HoopRing")
         {
-            hoopRingSound.Stop();
-            hoopRingSound.Play();
+            hoopHitSound.Stop();
+            hoopHitSound.Play();
         }
     }
 }

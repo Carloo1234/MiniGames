@@ -48,11 +48,7 @@ public class BaseHoopLogic : MonoBehaviour
             audioSource.Play();
             animator.Play("hoop_shrink_out_anim");
             Destroy(gameObject, 1f);
+            Destroy(transform.parent.gameObject, 5f);
         }
-    }
-
-    private void Destroy()
-    {
-        Destroy(transform.parent.gameObject);
     }
 }
