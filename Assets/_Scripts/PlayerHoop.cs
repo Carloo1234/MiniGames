@@ -14,6 +14,7 @@ public class PlayerHoop : MonoBehaviour
     [SerializeField] AudioSource ballHitNetSound;
     Rigidbody2D rb;
     SpriteRenderer playersSprite;
+    [SerializeField] HoopSpawner hoopSpawner;
 
     Vector3 startMousePos = Vector3.zero;
     Vector3 endMousePos = Vector3.zero;
@@ -139,6 +140,23 @@ public class PlayerHoop : MonoBehaviour
         if(collision.gameObject.tag == "Border")
         {
             dieSound.Play();
+        }
+        if(collision.gameObject.tag == "Point")
+        {
+            hoopSpawner.SpawnHoop();
+            GameManager.Instance.AddPoint(transform.position);
+            transform.position = collision.gameObject.transform.position;
+            MakeStatic();
+            collision.gameObject.GetComponent<Collider2D>().enabled = false;
+            Collider2D[] hoopChildColliders = collision.gameObject.GetComponentsInChildren<Collider2D>();
+            foreach (var collider in hoopChildColliders)
+            {
+                collider.enabled = false;
+            }
+            collision.gameObject.transform.parent.GetComponent<AudioSource>().Play();
+            collision.gameObject.transform.parent.GetComponent<Animator>().Play("hoop_shrink_out_anim");
+            Destroy(collision.gameObject, 1f);
+            Destroy(collision.gameObject.transform.parent.gameObject, 5f);
         }
     }
 

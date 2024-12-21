@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
     public int multiplyer = 1;
     private int perfectsCount = 1;
+    public bool perfectShot = true;
 
     public List<Sprite> balls;
     
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         multiplyer = 1;
         perfectsCount = 1;
+        perfectShot = true;
         Time.timeScale = 1;
 
         // Find UiManager in the newly loaded scene
@@ -64,11 +66,11 @@ public class GameManager : MonoBehaviour
         totalScore = PlayerPrefs.GetInt("TotalScore", 0);
     }
 
-    public void AddPoint(bool isPerfect, Vector3 hoopPosition)
+    public void AddPoint(Vector3 hoopPosition)
     {
         if (isGameOver) return;
 
-        if (isPerfect)
+        if (perfectShot)
         {
             if (uiManager) uiManager.ShowPerfectText(hoopPosition);
 
@@ -91,10 +93,8 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("TotalScore", totalScore);
         PlayerPrefs.Save();
 
-        if (uiManager != null)
-        {
-            uiManager.UpdateScoreUI(currentScore);
-        }
+        if (uiManager) uiManager.UpdateScoreUI(currentScore);
+        perfectShot = true;
     }
 
     public void PauseGame()

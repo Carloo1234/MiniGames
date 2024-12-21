@@ -12,7 +12,7 @@ public class HoopBorder : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            hoopLogic.isPerfect = false;
+            GameManager.Instance.perfectShot = false;
         }
 
     }

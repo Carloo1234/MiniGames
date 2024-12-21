@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 8893841222631243534}
   m_Layer: 0
   m_Name: Hoop
-  m_TagString: Untagged
+  m_TagString: Point
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -689,4 +689,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 2719178570985315481}
-  isPerfect: 1
