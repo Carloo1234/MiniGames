@@ -1,4 +1,5 @@
 // GameManager.cs
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     private int currentScore;
     private int highScore;
     private int totalScore;
+    private int currentCoins;
     private bool isGameOver = false;
     public int multiplyer = 1;
     private int perfectsCount = 1;
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         currentScore = 0;
+        currentCoins = 0;
         isGameOver = false;
         multiplyer = 1;
         perfectsCount = 1;
@@ -64,6 +67,21 @@ public class GameManager : MonoBehaviour
         // Load high score and total score
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         totalScore = PlayerPrefs.GetInt("TotalScore", 0);
+    }
+
+    public void AddCoin(GameObject coin)
+    {
+        coin.GetComponentInChildren<Animator>().SetBool("CoinIsWon", true);
+        coin.GetComponentInChildren<Collider2D>().enabled = false;
+        int coins = PlayerPrefs.GetInt("TotalCoins", 0);
+        coins++;
+        PlayerPrefs.SetInt("TotalCoins", coins);
+        currentCoins++;
+    }
+
+    public void UpdateCoinUI()
+    {
+        uiManager.UpdateCoinsUI(currentCoins);
     }
 
     public void AddPoint(Vector3 hoopPosition)
@@ -105,17 +123,6 @@ public class GameManager : MonoBehaviour
         if (uiManager != null)
         {
             uiManager.ShowPauseUI(currentScore);
-        }
-    }
-
-    public void ResumeGame()
-    {
-        if (isGameOver) return;
-
-        Time.timeScale = 1;
-        if (uiManager != null)
-        {
-            uiManager.HidePauseUI();
         }
     }
 

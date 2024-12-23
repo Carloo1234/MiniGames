@@ -12,6 +12,7 @@ public class PlayerHoop : MonoBehaviour
     [SerializeField] AudioSource hoopHitSound;
     [SerializeField] AudioSource ballShootSound;
     [SerializeField] AudioSource ballHitNetSound;
+    [SerializeField] AudioSource gainPointSound;
     Rigidbody2D rb;
     SpriteRenderer playersSprite;
     [SerializeField] HoopSpawner hoopSpawner;
@@ -80,8 +81,7 @@ public class PlayerHoop : MonoBehaviour
         MakeDynamic();
         Vector2 shootDirection = startMousePos - endMousePos;
         rb.AddForce(Vector3.ClampMagnitude((shootDirection * shootPower), clampMagnitude), ForceMode2D.Impulse);
-        ballShootSound.volume = (shootDirection * shootPower).magnitude / clampMagnitude;
-        Debug.Log((shootDirection * shootPower).magnitude / clampMagnitude);
+        ballShootSound.volume = ((shootDirection * shootPower).magnitude / clampMagnitude)-0.2f;
         ballShootSound.Stop();
         ballShootSound.Play();
         int randNum = UnityEngine.Random.Range(1, 11);
@@ -143,20 +143,11 @@ public class PlayerHoop : MonoBehaviour
         }
         if(collision.gameObject.tag == "Point")
         {
-            hoopSpawner.SpawnHoop();
-            GameManager.Instance.AddPoint(transform.position);
-            transform.position = collision.gameObject.transform.position;
-            MakeStatic();
-            collision.gameObject.GetComponent<Collider2D>().enabled = false;
-            Collider2D[] hoopChildColliders = collision.gameObject.GetComponentsInChildren<Collider2D>();
-            foreach (var collider in hoopChildColliders)
-            {
-                collider.enabled = false;
-            }
-            collision.gameObject.transform.parent.GetComponent<AudioSource>().Play();
-            collision.gameObject.transform.parent.GetComponent<Animator>().Play("hoop_shrink_out_anim");
-            Destroy(collision.gameObject, 1f);
-            Destroy(collision.gameObject.transform.parent.gameObject, 5f);
+            HandleAddPoint(collision.gameObject);
+        }
+        if(collision.gameObject.tag == "Coin")
+        {
+            GameManager.Instance.AddCoin(collision.gameObject);
         }
     }
 
@@ -166,6 +157,38 @@ public class PlayerHoop : MonoBehaviour
         {
             hoopHitSound.Stop();
             hoopHitSound.Play();
+        }
+    }
+
+    private void HandleAddPoint(GameObject hoop)
+    {
+        hoopSpawner.SpawnHoop();
+        GameManager.Instance.AddPoint(transform.position);
+        transform.position = hoop.transform.position;
+        MakeStatic();
+        hoop.GetComponent<Collider2D>().enabled = false;
+        Collider2D[] hoopChildColliders = hoop.GetComponentsInChildren<Collider2D>();
+        foreach (var collider in hoopChildColliders)
+        {
+            collider.enabled = false;
+        }
+
+        float pitch = 1.0f;
+        pitch += 0.025f * GameManager.Instance.multiplyer;
+        pitch = Mathf.Clamp(pitch, 0.8f, 1.3f);
+        gainPointSound.pitch = pitch;
+
+        ballHitNetSound.Play();
+        gainPointSound.Play();
+        hoop.transform.parent.GetComponent<Animator>().Play("hoop_shrink_out_anim");
+        Destroy(hoop, 1f);
+        Destroy(hoop.transform.parent.gameObject, 5f);
+
+        //stop horizontally moving hoop
+        HoopHorizontalMovement movingHoopScript = hoop.GetComponent<HoopHorizontalMovement>();
+        if (movingHoopScript != null)
+        {
+            movingHoopScript.StopMovement();
         }
     }
 }

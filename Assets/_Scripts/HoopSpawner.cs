@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HoopSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject hoopPrefab;
+    [SerializeField] GameObject coinPrefab;
     [SerializeField] GameObject[] hoopPrefabs;
     [SerializeField] HoopData[] hoopData;
     [SerializeField] Transform playerTransform;
@@ -16,27 +16,33 @@ public class HoopSpawner : MonoBehaviour
 
 
         Vector3 playerPos = playerTransform.position;
-        //get rand position
+        //get random position
         float xPos = Random.Range(playerPos.x + data.xMinLimit, playerPos.x + data.xMaxLimit);
         float yPos = Random.Range(playerPos.y + data.yMinLimit, playerPos.y + data.yMaxLimit);
-
+        hoop = Instantiate(hoopPrefabs[randomHoopIndex], new Vector3(xPos, yPos, 0), Quaternion.Euler(0, 0, 0));
         if (data.hasRotation)
         {
-            float randomRotation = Random.Range(data.minRotation, data.maxRotation);  
-            hoop = Instantiate(hoopPrefabs[randomHoopIndex], new Vector3(xPos, yPos, 0), Quaternion.Euler(0, 0, 0));
+            float randomRotation = Random.Range(data.minRotation, data.maxRotation);
             hoop.transform.GetChild(0).transform.rotation = Quaternion.Euler(0, 0, randomRotation);
         }
-        else
+        if (randomHoopIndex != 3) //when it isnt the moving one that is spawned.
         {
-            hoop = Instantiate(hoopPrefabs[randomHoopIndex], new Vector3(xPos, yPos, 0), Quaternion.Euler(0, 0, 0));
+            float probability = Random.value;
+            if(probability <= 0.5)
+            {
+                Vector3 coinPosition = hoop.transform.GetChild(0).transform.Find("CoinPosition").transform.position;
+                Instantiate(coinPrefab, coinPosition, Quaternion.Euler(0, 0, 0));
+            }
         }
-
         if (data.hasScale)
         {
             float randomScale = Random.Range(data.minScale, data.maxScale);
             hoop.transform.localScale = new Vector3(randomScale, randomScale, randomScale);
         }
     }
+
+
+
 
     private int ChooseRandomIndex()
     {

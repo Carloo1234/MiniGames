@@ -18,4 +18,5 @@ public class BaseHoopLogic : MonoBehaviour
         animator.Play("hoop_shrink_in_anim");
     }
    
+
 }

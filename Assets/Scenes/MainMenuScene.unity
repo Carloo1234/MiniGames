@@ -4717,6 +4717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplyer: 1
+  perfectShot: 1
   balls:
   - {fileID: 21300000, guid: adae7fb609a435e428897b7a68af6f9d, type: 3}
   - {fileID: 21300000, guid: f4f1d82e5c6289a4d9b87a8b1f5eeaae, type: 3}
