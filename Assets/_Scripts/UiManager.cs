@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Xml.Linq;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text gameCoinsText;
     [SerializeField] private TMP_Text pauseScoreText;
     [SerializeField] private TMP_Text gameOverScoreText;
+    [SerializeField] private TMP_Text gameOverPerfectScoreText;
     [SerializeField] private TMP_Text comboText;
 
     [Header("Other UI Elements")]
@@ -42,6 +44,9 @@ public class UiManager : MonoBehaviour
     [Header("Animations")]    
     [SerializeField] Vector3 coinPanelPopScale;
     [SerializeField] Vector3 scorePopScale;
+
+    [Header("Clicked Buttons")]
+    [SerializeField] Sprite clickedResume;
     public void ShowComboText(int multiplier)
     {
         if (comboText) 
@@ -126,18 +131,12 @@ public class UiManager : MonoBehaviour
             if (pauseScoreText) pauseScoreText.text = currentScore.ToString();
             // Set initial positions
             pausePanel.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -800, 0);
-            pauseScoreObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 550, 0);
             resumeButtonObject.transform.localScale = Vector3.zero;
             menuButtonObject.transform.localScale = Vector3.zero;
 
             // Animate to the desired Y position
-            LeanTween.moveY(pausePanel.GetComponent<RectTransform>(), 0, 0.5f) // Target Y = 0 (centered)
+            LeanTween.moveY(pausePanel.GetComponent<RectTransform>(), 0, 0.5f)
                      .setEase(LeanTweenType.easeInOutQuint).setIgnoreTimeScale(true);
-
-            LeanTween.moveY(pauseScoreObject.GetComponent<RectTransform>(), 370, 0.3f) // Target Y = 0 (centered)
-                     .setEase(LeanTweenType.easeInOutQuint)
-                     .setDelay(0.2f)
-                     .setIgnoreTimeScale(true);
             LeanTween.scale(resumeButtonObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutBack).setDelay(0.5f).setIgnoreTimeScale(true);
             LeanTween.scale(menuButtonObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutBack).setDelay(0.6f).setIgnoreTimeScale(true);
 
@@ -148,7 +147,7 @@ public class UiManager : MonoBehaviour
     {
         LeanTween.scale(resumeButtonObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInBack).setIgnoreTimeScale(true);
         LeanTween.scale(menuButtonObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInBack).setDelay(0.1f).setIgnoreTimeScale(true);
-        LeanTween.moveY(pausePanel.GetComponent<RectTransform>(), -800f, 0.5f) // Target Y = 0 (centered)
+        LeanTween.moveY(pausePanel.GetComponent<RectTransform>(), -800f, 0.5f)
                      .setEase(LeanTweenType.easeInOutQuint).setIgnoreTimeScale(true).setDelay(0.6f).setOnComplete(() =>
                      {
                          pauseCanvas.SetActive(false);
@@ -156,14 +155,9 @@ public class UiManager : MonoBehaviour
                          ShowGameUI();
                      }
                      );
-
-        LeanTween.moveY(pauseScoreObject.GetComponent<RectTransform>(), 550, 0.3f) // Target Y = 0 (centered)
-                 .setEase(LeanTweenType.easeInOutQuint)
-                 .setDelay(0.8f)
-                 .setIgnoreTimeScale(true);
     }
 
-    public void ShowGameOverUI(int finalScore, bool isNewHighScore)
+    public void ShowGameOverUI(int finalScore, bool isNewHighScore, int finalPerfectScore)
     {
         if (gameCanvas) gameCanvas.SetActive(false);
         
@@ -173,7 +167,6 @@ public class UiManager : MonoBehaviour
             gameOverCanvas.SetActive(true);
             // Set initial positions
             gameOverPanel.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -800, 0);
-            gameOverScoreObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 550, 0);
             gameOverRestartButtonObject.transform.localScale = Vector3.zero;
             gameOverMenuButtonObject.transform.localScale = Vector3.zero;
 
@@ -181,13 +174,10 @@ public class UiManager : MonoBehaviour
             LeanTween.moveY(gameOverPanel.GetComponent<RectTransform>(), 0, 0.5f) // Target Y = 0 (centered)
                      .setEase(LeanTweenType.easeInOutQuint).setIgnoreTimeScale(true);
 
-            LeanTween.moveY(gameOverScoreObject.GetComponent<RectTransform>(), 370, 0.3f) // Target Y = 0 (centered)
-                     .setEase(LeanTweenType.easeInOutQuint)
-                     .setDelay(0.2f)
-                     .setIgnoreTimeScale(true);
             LeanTween.scale(gameOverRestartButtonObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutBack).setDelay(0.5f).setIgnoreTimeScale(true);
             LeanTween.scale(gameOverMenuButtonObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutBack).setDelay(0.6f).setIgnoreTimeScale(true);
             if (gameOverScoreText) gameOverScoreText.text = finalScore.ToString();
+            if (gameOverPerfectScoreText) gameOverPerfectScoreText.text = finalPerfectScore.ToString();
             if (true)
             {
                 highScoreIndicator.SetActive(true);
@@ -231,6 +221,7 @@ public class UiManager : MonoBehaviour
 
     public void OnResumeButtonClicked()
     {
+        //image.sprite = clickedResume;
         HidePauseUI();
     }
 

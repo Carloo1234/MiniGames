@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     private UiManager uiManager;
     private int currentScore;
+    public int totalPerfectScore;
     private int highScore;
     private int totalScore;
     private int currentCoins;
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     public int multiplyer = 1;
     private int perfectsCount = 1;
     public bool perfectShot = true;
+    public bool isPaused = false;
 
     public List<Sprite> balls;
     
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeGame()
     {
+        totalPerfectScore = 0;
         currentScore = 0;
         currentCoins = 0;
         isGameOver = false;
@@ -90,6 +93,7 @@ public class GameManager : MonoBehaviour
 
         if (perfectShot)
         {
+            totalPerfectScore++;
             if (uiManager) uiManager.ShowPerfectText(hoopPosition);
 
             perfectsCount++;
@@ -118,7 +122,7 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         if (isGameOver) return;
-
+        isPaused = true;
         Time.timeScale = 0;
         if (uiManager != null)
         {
@@ -142,7 +146,7 @@ public class GameManager : MonoBehaviour
 
         if (uiManager != null)
         {
-            uiManager.ShowGameOverUI(currentScore, isNewHighScore);
+            uiManager.ShowGameOverUI(currentScore, isNewHighScore, totalPerfectScore);
         }
     }
 

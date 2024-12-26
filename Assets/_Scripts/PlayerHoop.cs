@@ -19,7 +19,7 @@ public class PlayerHoop : MonoBehaviour
 
     Vector3 startMousePos = Vector3.zero;
     Vector3 endMousePos = Vector3.zero;
-    bool canShootBall = false;
+    public bool canShootBall = false;
 
     void Start()
     {
@@ -32,13 +32,13 @@ public class PlayerHoop : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
         {
             startMousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             startMousePos.z = 0; // Keep the z position at 0 for 2D
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && Time.timeScale != 0)
         {
             endMousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             endMousePos.z = 0; // Keep the z position at 0 for 2D
@@ -49,8 +49,9 @@ public class PlayerHoop : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Time.timeScale != 0)
         {
+
             Vector3 currentMousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             currentMousePos.z = 0; // Keep the z position at 0 for 2D
 

@@ -20,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject[] inactiveGridSections;
     [SerializeField] private GameObject[] activeGridSections;
     [SerializeField] private TMP_Text shopPointsText;
+    [SerializeField] private TMP_Text shopCoinsText;
     [SerializeField] private int[] pointRequirments;
 
     private int ballsUnlocked = 0;
@@ -110,7 +111,9 @@ public class MainMenuManager : MonoBehaviour
         ballsUnlocked = 0;
         currentlySelectedBall = PlayerPrefs.GetInt("SelectedBallIndex", 0);
         int currentPoints = PlayerPrefs.GetInt("TotalScore", 0);
+        int currentCoins = PlayerPrefs.GetInt("TotalCoins", 0);
         shopPointsText.text = currentPoints.ToString() + " Points";
+        shopCoinsText.text = currentCoins.ToString();
         foreach (var requiredNum in pointRequirments)
         {
             if (currentPoints < requiredNum)
