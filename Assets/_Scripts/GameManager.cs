@@ -56,11 +56,7 @@ public class GameManager : MonoBehaviour
 
         // Find UiManager in the newly loaded scene
         uiManager = FindObjectOfType<UiManager>();
-        if (uiManager == null)
-        {
-            //Debug.LogError("UiManager not found in the scene!");
-        }
-        else
+        if (uiManager != null)
         {
             uiManager.UpdateScoreUI(currentScore);
             uiManager.HideAllUI();
@@ -68,17 +64,20 @@ public class GameManager : MonoBehaviour
         }
 
         // Load high score and total score
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        totalScore = PlayerPrefs.GetInt("TotalScore", 0);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        highScore = data.highScore;
+        totalScore = data.totalScore;
+        //highScore = PlayerPrefs.GetInt("HighScore", 0);
+        //totalScore = PlayerPrefs.GetInt("TotalScore", 0);
     }
 
     public void AddCoin(GameObject coin)
     {
         coin.GetComponentInChildren<Animator>().SetBool("CoinIsWon", true);
         coin.GetComponentInChildren<Collider2D>().enabled = false;
-        int coins = PlayerPrefs.GetInt("TotalCoins", 0);
-        coins++;
-        PlayerPrefs.SetInt("TotalCoins", coins);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        //int coins = PlayerPrefs.GetInt("TotalCoins", 0);
+        SaveSystem.UpdateTotalCoins(++data.totalCoins);
         currentCoins++;
     }
 
@@ -111,9 +110,11 @@ public class GameManager : MonoBehaviour
         }
 
         currentScore += 1 * multiplyer;
+
         totalScore += 1 * multiplyer;
-        PlayerPrefs.SetInt("TotalScore", totalScore);
-        PlayerPrefs.Save();
+        SaveSystem.UpdateTotalScore(totalScore);
+        //PlayerPrefs.SetInt("TotalScore", totalScore);
+        //PlayerPrefs.Save();
 
         if (uiManager) uiManager.UpdateScoreUI(currentScore);
         perfectShot = true;
@@ -140,9 +141,10 @@ public class GameManager : MonoBehaviour
         if (isNewHighScore)
         {
             highScore = currentScore;
-            PlayerPrefs.SetInt("HighScore", highScore);
+            SaveSystem.UpdateHighScore(highScore);
+            //PlayerPrefs.SetInt("HighScore", highScore);
         }
-        PlayerPrefs.Save();
+        //PlayerPrefs.Save();
 
         if (uiManager != null)
         {

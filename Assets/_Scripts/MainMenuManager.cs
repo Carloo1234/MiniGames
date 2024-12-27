@@ -28,7 +28,9 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        currentlySelectedBall = PlayerPrefs.GetInt("SelectedBallIndex", 0);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        currentlySelectedBall = data.currentlySelectedSkinIndex;
+        //currentlySelectedBall = PlayerPrefs.GetInt("SelectedBallIndex", 0);
         selectedPlayerSprite.sprite = GameManager.Instance.balls[currentlySelectedBall];
         mainMenuCanvas.SetActive(true);
         shopMenuCanvas.SetActive(false);
@@ -38,7 +40,9 @@ public class MainMenuManager : MonoBehaviour
 
     private void UpdateHighScoreDisplay()
     {
-        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        int highScore = data.highScore;
+        //int highScore = PlayerPrefs.GetInt("HighScore", 0);
         if (highScoreText != null)
         {
             highScoreText.text = "High Score: " + highScore.ToString();
@@ -47,7 +51,9 @@ public class MainMenuManager : MonoBehaviour
 
     private void UpdateTotalScoreDisplay()
     {
-        int totalScore = PlayerPrefs.GetInt("TotalScore", 0);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        int totalScore = data.totalScore;
+        //int totalScore = PlayerPrefs.GetInt("TotalScore", 0);
         if (totalScoreText != null)
         {
             totalScoreText.text = "Total Score: " + totalScore.ToString();
@@ -68,32 +74,31 @@ public class MainMenuManager : MonoBehaviour
     public void OnConfirmButtonClicked()
     {
         string text = codeText.text;
+        GameData data = SaveSystem.Load() ?? new GameData();
+        int totalScore = data.totalScore;
         if (text == "POOP1000")
         {
-            int totalScore = PlayerPrefs.GetInt("TotalScore", 0);
-            PlayerPrefs.SetInt("TotalScore", totalScore += 1000);
+            //int totalScore = PlayerPrefs.GetInt("TotalScore", 0);
+            SaveSystem.UpdateTotalScore(totalScore += 1000);
+            //PlayerPrefs.SetInt("TotalScore", totalScore += 1000);
         }
         else if (text == "POOP-1000")
         {
-            int totalScore = PlayerPrefs.GetInt("TotalScore", 0);
-            PlayerPrefs.SetInt("TotalScore", totalScore -= 1000);
-            if (PlayerPrefs.GetInt("TotalScore", 0) < 0)
-            {
-                PlayerPrefs.SetInt("TotalScore", 0);
-            }
+            SaveSystem.UpdateTotalScore(totalScore -= 1000);
+            //PlayerPrefs.SetInt("TotalScore", totalScore -= 1000);
         }
         else if (text == "POOPfreset")
         {
-            PlayerPrefs.SetInt("TotalScore", 0);
-            PlayerPrefs.SetInt("HighScore", 0);
+            SaveSystem.UpdateTotalScore(0);
+            SaveSystem.UpdateHighScore(0);
         }
         else if (text == "POOPhreset")
         {
-            PlayerPrefs.SetInt("HighScore", 0);
+            SaveSystem.UpdateHighScore(0);
         }
         else if (text == "POOPtreset")
         {
-            PlayerPrefs.SetInt("TotalScore", 0);
+            SaveSystem.UpdateTotalScore(0);
         }
     }
     public void OnBackButtonClicked()
@@ -108,12 +113,16 @@ public class MainMenuManager : MonoBehaviour
 
     private void InitializeShop()
     {
+        GameData data = SaveSystem.Load() ?? new GameData();
         ballsUnlocked = 0;
-        currentlySelectedBall = PlayerPrefs.GetInt("SelectedBallIndex", 0);
-        int currentPoints = PlayerPrefs.GetInt("TotalScore", 0);
-        int currentCoins = PlayerPrefs.GetInt("TotalCoins", 0);
+        currentlySelectedBall = data.currentlySelectedSkinIndex;
+        int currentPoints = data.totalScore;
+        int currentCoins = data.totalCoins;
+
         shopPointsText.text = currentPoints.ToString() + " Points";
         shopCoinsText.text = currentCoins.ToString();
+
+        //calculate balls unlocked
         foreach (var requiredNum in pointRequirments)
         {
             if (currentPoints < requiredNum)
@@ -122,19 +131,21 @@ public class MainMenuManager : MonoBehaviour
             }
             ballsUnlocked++;
         }
+
+        //Manage ball slot states.
         for (int i = 0; i < inactiveGridSections.Length; i++)
         {
-            if( i < ballsUnlocked)
+            if( i < ballsUnlocked) 
             {
                 inactiveGridSections[i].transform.localScale = Vector3.zero;
                 activeGridSections[i].transform.localScale = Vector3.one;
                 if (i == currentlySelectedBall)
                 {
-                    activeGridSections[i].GetComponent<Image>().color = new Color(0.788f, 0.6f, 0.462f);
+                    activeGridSections[i].GetComponent<Image>().color = new Color(0.788f, 0.6f, 0.462f); // selected color
                 }
                 else
                 {
-                    activeGridSections[i].GetComponent<Image>().color = new Color(0.729f, 0.510f, 0.357f);
+                    activeGridSections[i].GetComponent<Image>().color = new Color(0.729f, 0.510f, 0.357f); // normal color
                 }
             }
             else
@@ -155,8 +166,9 @@ public class MainMenuManager : MonoBehaviour
 
         activeGridSections[buttonIndex].GetComponent<Image>().color = new Color(0.788f, 0.6f, 0.462f);
         currentlySelectedBall = buttonIndex;
-        PlayerPrefs.SetInt("SelectedBallIndex", currentlySelectedBall);
-        PlayerPrefs.Save();
+        SaveSystem.UpdateCurrentlySelectedSkin(currentlySelectedBall);
+        //PlayerPrefs.SetInt("SelectedBallIndex", currentlySelectedBall);
+        //PlayerPrefs.Save();
     }
 
     public void StartGame()

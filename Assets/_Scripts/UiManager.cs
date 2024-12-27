@@ -178,7 +178,7 @@ public class UiManager : MonoBehaviour
             LeanTween.scale(gameOverMenuButtonObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutBack).setDelay(0.6f).setIgnoreTimeScale(true);
             if (gameOverScoreText) gameOverScoreText.text = finalScore.ToString();
             if (gameOverPerfectScoreText) gameOverPerfectScoreText.text = finalPerfectScore.ToString();
-            if (true)
+            if (isNewHighScore)
             {
                 highScoreIndicator.SetActive(true);
                 gameOverNewHighscoreObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;

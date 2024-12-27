@@ -26,8 +26,8 @@ public class PlayerHoop : MonoBehaviour
         Time.timeScale = 1;
         playersSprite = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-
-        playersSprite.sprite = GameManager.Instance.balls[PlayerPrefs.GetInt("SelectedBallIndex", 0)];
+        GameData data = SaveSystem.Load() ?? new GameData();
+        playersSprite.sprite = GameManager.Instance.balls[data.currentlySelectedSkinIndex];
     }
 
     void Update()
@@ -124,10 +124,12 @@ public class PlayerHoop : MonoBehaviour
 
     IEnumerator DeathTimer()
     {
-        int currentScore = PlayerPrefs.GetInt("TotalScore", 0);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        int currentScore = data.totalScore;
         yield return new WaitForSecondsRealtime(4.5f);
 
-        if (currentScore == PlayerPrefs.GetInt("TotalScore", 0) && Time.timeScale != 0)
+        data = SaveSystem.Load() ?? new GameData();
+        if (currentScore == data.totalScore && Time.timeScale != 0)
         {
             GameManager.Instance.GameOver();
             dieSound.Play();

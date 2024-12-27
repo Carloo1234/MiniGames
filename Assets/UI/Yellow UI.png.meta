@@ -262,7 +262,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Menu Clicked
+      name: Menu Unclicked
       rect:
         serializedVersion: 2
         x: 1012
@@ -283,7 +283,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Menu Unclicked
+      name: Menu Clicked
       rect:
         serializedVersion: 2
         x: 1512
@@ -304,7 +304,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop Unclicked
+      name: Shop Clicked
       rect:
         serializedVersion: 2
         x: 1512
@@ -325,7 +325,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop Clicked
+      name: Shop Unclicke
       rect:
         serializedVersion: 2
         x: 1012
@@ -549,8 +549,8 @@ TextureImporter:
       GameOver Panel: 1685408840
       Home Circular Clicked: 467226984
       Home Circular Unclicked: 1214546437
-      Menu Clicked: -549585934
-      Menu Unclicked: 798961332
+      Menu Clicked: 798961332
+      Menu Unclicked: -549585934
       Mini Panel: -916159181
       Pause Button: 848926736
       Pause Panel: -618138239
@@ -562,8 +562,8 @@ TextureImporter:
       Restart Unclicked: -1569622673
       Resume Clicked: 353547550
       Resume Unclicked: -1543553022
-      Shop Clicked: 1395159707
-      Shop Unclicked: 1155674521
+      Shop Clicked: 1155674521
+      Shop Unclicke: 1395159707
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
