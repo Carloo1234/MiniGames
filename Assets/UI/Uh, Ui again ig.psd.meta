@@ -207,7 +207,7 @@ TextureImporter:
         width: 674
         height: 206
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -228,7 +228,7 @@ TextureImporter:
         width: 674
         height: 206
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,7 +249,7 @@ TextureImporter:
         width: 675
         height: 206
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -257,6 +257,48 @@ TextureImporter:
       bones: []
       spriteID: 685ef1383d0a43042bf763d80faa959f
       internalID: 730984895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skin container
+      rect:
+        serializedVersion: 2
+        x: 1321
+        y: 1520
+        width: 679
+        height: 480
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b0a381a5f2d9cb45bba118299d6fa04
+      internalID: 1741994109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Selected skin container
+      rect:
+        serializedVersion: 2
+        x: 1321
+        y: 0
+        width: 679
+        height: 480
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cd350b0c0afa554eaa4dfc6088548fb
+      internalID: -2001465267
       vertices: []
       indices: 
       edges: []
@@ -276,8 +318,10 @@ TextureImporter:
       Play Button: 2041873649
       Select button: -872274294
       Selected button: 130394287
+      Selected skin container: -2001465267
       Shop Button: 707958031
       Shop Slot: 1500336909
+      Skin container: 1741994109
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

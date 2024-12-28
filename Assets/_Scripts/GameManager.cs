@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public bool perfectShot = true;
     public bool isPaused = false;
 
-    public List<Sprite> balls;
+    //public List<Sprite> balls;
     
 
     private void Awake()

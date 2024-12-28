@@ -1012,6 +1012,7 @@ MonoBehaviour:
   ballHitNetSound: {fileID: 1415184987}
   gainPointSound: {fileID: 1606957767}
   hoopSpawner: {fileID: 1067501143}
+  skinDatabase: {fileID: 11400000, guid: 01a6f4e7519536d4f8768b9bebb5d163, type: 2}
   canShootBall: 0
 --- !u!96 &224201503
 TrailRenderer:
@@ -1375,13 +1376,6 @@ MonoBehaviour:
   multiplyer: 1
   perfectShot: 1
   isPaused: 0
-  balls:
-  - {fileID: 21300000, guid: adae7fb609a435e428897b7a68af6f9d, type: 3}
-  - {fileID: 21300000, guid: f4f1d82e5c6289a4d9b87a8b1f5eeaae, type: 3}
-  - {fileID: 21300000, guid: 57d118ee4245076489fc6f89c6d417b4, type: 3}
-  - {fileID: 21300000, guid: bfb716165673c074f8183c7e742beb5c, type: 3}
-  - {fileID: 21300000, guid: 0f8b70e98a09f5b4196037c90808e972, type: 3}
-  - {fileID: 21300000, guid: 5735ffaab0b8fe742b5d4911b64a4452, type: 3}
 --- !u!4 &377174171
 Transform:
   m_ObjectHideFlags: 0

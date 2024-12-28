@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -17,21 +18,19 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TMP_InputField codeText;
     [SerializeField] private Image selectedPlayerSprite;
     [Header("Shop stuff")]
-    [SerializeField] private GameObject[] inactiveGridSections;
-    [SerializeField] private GameObject[] activeGridSections;
-    [SerializeField] private TMP_Text shopPointsText;
+    [SerializeField] private Transform skinsParent;
     [SerializeField] private TMP_Text shopCoinsText;
-    [SerializeField] private int[] pointRequirments;
+    [SerializeField] private SkinDatabase skinData;
 
-    private int ballsUnlocked = 0;
-    private int currentlySelectedBall = 0;
+
+    private List<int> skinsUnlocked;
+    private int currentlySelectedSkin = 0;
 
     private void Start()
     {
         GameData data = SaveSystem.Load() ?? new GameData();
-        currentlySelectedBall = data.currentlySelectedSkinIndex;
-        //currentlySelectedBall = PlayerPrefs.GetInt("SelectedBallIndex", 0);
-        selectedPlayerSprite.sprite = GameManager.Instance.balls[currentlySelectedBall];
+        currentlySelectedSkin = data.currentlySelectedSkinIndex;
+        selectedPlayerSprite.sprite = skinData.skins[currentlySelectedSkin].sprite;
         mainMenuCanvas.SetActive(true);
         shopMenuCanvas.SetActive(false);
         UpdateHighScoreDisplay();
@@ -106,7 +105,7 @@ public class MainMenuManager : MonoBehaviour
         if (mainMenuCanvas) mainMenuCanvas.SetActive(true);
         if (shopMenuCanvas) shopMenuCanvas.SetActive(false);
         if (codeMenuCanvas) codeMenuCanvas.SetActive(false);
-        selectedPlayerSprite.sprite = GameManager.Instance.balls[currentlySelectedBall];
+        selectedPlayerSprite.sprite = skinData.skins[currentlySelectedSkin].sprite;
         UpdateHighScoreDisplay();
         UpdateTotalScoreDisplay();
     }
@@ -114,61 +113,93 @@ public class MainMenuManager : MonoBehaviour
     private void InitializeShop()
     {
         GameData data = SaveSystem.Load() ?? new GameData();
-        ballsUnlocked = 0;
-        currentlySelectedBall = data.currentlySelectedSkinIndex;
-        int currentPoints = data.totalScore;
+        //ballsUnlocked = 0;
+        skinsUnlocked = data.skinsUnlocked;
+        currentlySelectedSkin = data.currentlySelectedSkinIndex;
         int currentCoins = data.totalCoins;
 
-        shopPointsText.text = currentPoints.ToString() + " Points";
-        shopCoinsText.text = currentCoins.ToString();
-
-        //calculate balls unlocked
-        foreach (var requiredNum in pointRequirments)
+        for (int i = 0; i < skinData.skins.Count; i++)
         {
-            if (currentPoints < requiredNum)
-            {
-                break;
-            }
-            ballsUnlocked++;
-        }
+            Transform skinContainer = skinsParent.GetChild(i);
 
-        //Manage ball slot states.
-        for (int i = 0; i < inactiveGridSections.Length; i++)
-        {
-            if( i < ballsUnlocked) 
+            // Get the required child elements
+            GameObject priceObj = skinContainer.Find("Price").gameObject;
+            GameObject selectButton = skinContainer.Find("SelectButton").gameObject;
+            GameObject buyButton = skinContainer.Find("BuyButton").gameObject;
+            GameObject selectedButton = skinContainer.Find("SelectedButton").gameObject;
+            GameObject ballObj = skinContainer.Find("Ball").gameObject;
+
+            ballObj.GetComponentInChildren<Image>().sprite = skinData.skins[i].sprite;
+            // Set the price text
+            TMP_Text priceText = priceObj.GetComponentInChildren<TMP_Text>();
+            priceText.text = skinData.skins[i].price.ToString();
+
+            // Check if the skin is unlocked
+            if (skinsUnlocked.Contains(i))
             {
-                inactiveGridSections[i].transform.localScale = Vector3.zero;
-                activeGridSections[i].transform.localScale = Vector3.one;
-                if (i == currentlySelectedBall)
+                buyButton.SetActive(false);
+                priceObj.SetActive(false);
+
+                if (i == currentlySelectedSkin)
                 {
-                    activeGridSections[i].GetComponent<Image>().color = new Color(0.788f, 0.6f, 0.462f); // selected color
+                    selectButton.SetActive(false);
+                    selectedButton.SetActive(true);
                 }
                 else
                 {
-                    activeGridSections[i].GetComponent<Image>().color = new Color(0.729f, 0.510f, 0.357f); // normal color
+                    selectButton.SetActive(true);
+                    selectedButton.SetActive(false);
                 }
             }
             else
             {
-                inactiveGridSections[i].transform.localScale = Vector3.one;
-                activeGridSections[i].transform.localScale = Vector3.zero;
+                buyButton.SetActive(true);
+                priceObj.SetActive(true);
+                selectButton.SetActive(false);
+                selectedButton.SetActive(false);
             }
+        }
+
+
+        shopCoinsText.text = currentCoins.ToString();
+    }
+
+    public void BuySkin(int skinIndex)
+    {
+        GameData data = SaveSystem.Load() ?? new GameData();
+        // Check if player has enough coins
+        if (data.totalCoins >= skinData.skins[skinIndex].price)
+        {
+            data.totalCoins -= skinData.skins[skinIndex].price;
+            data.skinsUnlocked.Add(skinIndex);
+            data.currentlySelectedSkinIndex = skinIndex;
+
+            SaveSystem.Save(data);
+
+            InitializeShop(); // Refresh the UI
+        }
+        else
+        {
+            Debug.Log("Not enough coins to buy this skin!");
         }
     }
 
-    public void OnActiveShopButtonClicked(int buttonIndex)
+    public void SelectSkin(int skinIndex)
     {
-        // Done incase ball is removed in update.
-        if (currentlySelectedBall < activeGridSections.Length)
+        GameData data = SaveSystem.Load() ?? new GameData();
+        // Check if the skin is unlocked
+        if (data.skinsUnlocked.Contains(skinIndex))
         {
-            activeGridSections[currentlySelectedBall].GetComponent<Image>().color = new Color(0.729f, 0.510f, 0.357f);
-        }
+            data.currentlySelectedSkinIndex = skinIndex;
 
-        activeGridSections[buttonIndex].GetComponent<Image>().color = new Color(0.788f, 0.6f, 0.462f);
-        currentlySelectedBall = buttonIndex;
-        SaveSystem.UpdateCurrentlySelectedSkin(currentlySelectedBall);
-        //PlayerPrefs.SetInt("SelectedBallIndex", currentlySelectedBall);
-        //PlayerPrefs.Save();
+            SaveSystem.Save(data);
+
+            InitializeShop(); // Refresh the UI
+        }
+        else
+        {
+            Debug.Log("Skin is locked!");
+        }
     }
 
     public void StartGame()

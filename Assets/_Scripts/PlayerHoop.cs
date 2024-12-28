@@ -16,6 +16,7 @@ public class PlayerHoop : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer playersSprite;
     [SerializeField] HoopSpawner hoopSpawner;
+    [SerializeField] SkinDatabase skinDatabase;
 
     Vector3 startMousePos = Vector3.zero;
     Vector3 endMousePos = Vector3.zero;
@@ -27,7 +28,7 @@ public class PlayerHoop : MonoBehaviour
         playersSprite = gameObject.GetComponent<SpriteRenderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         GameData data = SaveSystem.Load() ?? new GameData();
-        playersSprite.sprite = GameManager.Instance.balls[data.currentlySelectedSkinIndex];
+        playersSprite.sprite = skinDatabase.skins[data.currentlySelectedSkinIndex].sprite;
     }
 
     void Update()
