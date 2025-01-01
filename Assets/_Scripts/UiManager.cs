@@ -204,29 +204,26 @@ public class UiManager : MonoBehaviour
 
     public void OnRestartButtonClicked()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RestartGame();
-        }
-        else
-        {
-            Debug.LogError("GameManager.Instance is null!");
-        }
+        GameManager.Instance.ButtonClickSound();
+        GameManager.Instance.RestartGame();
     }
     
     public void OnPauseButtonClicked()
     {
+        GameManager.Instance.ButtonClickSound();
         GameManager.Instance.PauseGame();
     }
 
     public void OnResumeButtonClicked()
     {
-        //image.sprite = clickedResume;
+        GameManager.Instance.ButtonClickSound();
         HidePauseUI();
     }
 
     public void OnMenuButtonClicked()
     {
+        GameManager.Instance.ButtonClickSound();
         GameManager.Instance.ReturnToMainMenu();
     }
+
 }

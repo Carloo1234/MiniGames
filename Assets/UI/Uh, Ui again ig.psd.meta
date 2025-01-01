@@ -178,13 +178,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shop Slot
+      name: Home button
       rect:
         serializedVersion: 2
-        x: 728
-        y: 1813
-        width: 187
-        height: 187
+        x: 721
+        y: 1792
+        width: 208
+        height: 208
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -283,13 +283,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Selected skin container
+      name: Panel
       rect:
         serializedVersion: 2
-        x: 1321
-        y: 0
-        width: 679
-        height: 480
+        x: 1087
+        y: 16
+        width: 903
+        height: 1102
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -299,6 +299,69 @@ TextureImporter:
       bones: []
       spriteID: 3cd350b0c0afa554eaa4dfc6088548fb
       internalID: -2001465267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Resume button
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 631
+        width: 674
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84d82a37e4ade2f4e83a97b2c0d2d321
+      internalID: 1116374956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Restart button
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 1553
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5a48a3547282d04a83efaa3229f4b89
+      internalID: 788760994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cloud
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 131
+        width: 506
+        height: 315
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99653a13ba9a77d4b90c4231dd44b62e
+      internalID: 81775988
       vertices: []
       indices: 
       edges: []
@@ -315,12 +378,15 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Buy button: 730984895
+      Cloud: 81775988
+      Home button: 1500336909
+      Panel: -2001465267
       Play Button: 2041873649
+      Restart button: 788760994
+      Resume button: 1116374956
       Select button: -872274294
       Selected button: 130394287
-      Selected skin container: -2001465267
       Shop Button: 707958031
-      Shop Slot: 1500336909
       Skin container: 1741994109
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

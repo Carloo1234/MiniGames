@@ -28,7 +28,7 @@ public class HoopSpawner : MonoBehaviour
         if (randomHoopIndex != 3) //when it isnt the moving one that is spawned.
         {
             float probability = Random.value;
-            if(probability <= 0.5)
+            if(probability <= 0.4)
             {
                 Vector3 coinPosition = hoop.transform.GetChild(0).transform.Find("CoinPosition").transform.position;
                 Instantiate(coinPrefab, coinPosition, Quaternion.Euler(0, 0, 0));

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class GameManager : MonoBehaviour
     private int perfectsCount = 1;
     public bool perfectShot = true;
     public bool isPaused = false;
+
+    [Header("Audio")]
+    [SerializeField] AudioSource buttonClick;
 
     //public List<Sprite> balls;
     
@@ -165,5 +169,11 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("MainMenuScene"); 
+    }
+
+    public void ButtonClickSound()
+    {
+        buttonClick.Stop();
+        buttonClick.Play();
     }
 }

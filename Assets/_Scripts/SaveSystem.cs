@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveSystem
 {
-    private static string GetFilePath() => Application.persistentDataPath + "/gameData.dat";
+    private static string GetFilePath() => Application.persistentDataPath + "/gameData.nigger";
 
     public static void Save(GameData data)
     {

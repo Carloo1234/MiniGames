@@ -22,6 +22,13 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TMP_Text shopCoinsText;
     [SerializeField] private SkinDatabase skinData;
 
+    [SerializeField] private AudioSource selectSound;
+    [SerializeField] private AudioSource purchaseSound;
+    [SerializeField] private AudioSource errorSound;
+    [SerializeField] private RectTransform errorLabel;
+
+    [SerializeField] float shakeDuration = 0.5f; 
+    [SerializeField] float shakeStrength = 10f; 
 
     private List<int> skinsUnlocked;
     private int currentlySelectedSkin = 0;
@@ -61,6 +68,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnShopButtonClicked()
     {
+        GameManager.Instance.ButtonClickSound();
         if (mainMenuCanvas) mainMenuCanvas.SetActive(false);
         if (shopMenuCanvas) shopMenuCanvas.SetActive(true);
         InitializeShop();
@@ -102,6 +110,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void OnBackButtonClicked()
     {
+        GameManager.Instance.ButtonClickSound();
         if (mainMenuCanvas) mainMenuCanvas.SetActive(true);
         if (shopMenuCanvas) shopMenuCanvas.SetActive(false);
         if (codeMenuCanvas) codeMenuCanvas.SetActive(false);
@@ -142,11 +151,17 @@ public class MainMenuManager : MonoBehaviour
 
                 if (i == currentlySelectedSkin)
                 {
+                    ballObj.transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+                    RectTransform ballRect = ballObj.GetComponent<RectTransform>();
+                    ballRect.anchoredPosition = new Vector2(0, 15);
                     selectButton.SetActive(false);
                     selectedButton.SetActive(true);
                 }
                 else
                 {
+                    ballObj.transform.localScale = Vector3.one;
+                    RectTransform ballRect = ballObj.GetComponent<RectTransform>();
+                    ballRect.anchoredPosition = new Vector2(0, 25);
                     selectButton.SetActive(true);
                     selectedButton.SetActive(false);
                 }
@@ -170,6 +185,8 @@ public class MainMenuManager : MonoBehaviour
         // Check if player has enough coins
         if (data.totalCoins >= skinData.skins[skinIndex].price)
         {
+            purchaseSound.Stop();
+            purchaseSound.Play();
             data.totalCoins -= skinData.skins[skinIndex].price;
             data.skinsUnlocked.Add(skinIndex);
             data.currentlySelectedSkinIndex = skinIndex;
@@ -180,7 +197,23 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not enough coins to buy this skin!");
+            errorSound.Stop();
+            errorSound.Play();
+            errorLabel.gameObject.SetActive(true);
+            Vector3 originalPosition = errorLabel.GetComponent<RectTransform>().anchoredPosition;
+            Vector3 to = UnityEngine.Random.insideUnitCircle * shakeStrength;
+            to = to + originalPosition;
+            LeanTween.move(errorLabel, to, shakeDuration).setEase(LeanTweenType.easeShake).setIgnoreTimeScale(true)
+                .setOnComplete(() =>
+                {
+                    LeanTween.move(errorLabel, originalPosition, 0.2f).setEase(LeanTweenType.easeOutBack).setIgnoreTimeScale(true).setOnComplete(() =>
+                    {
+                        errorLabel.gameObject.SetActive(false);
+                    });
+                    
+                });
+
+
         }
     }
 
@@ -190,6 +223,8 @@ public class MainMenuManager : MonoBehaviour
         // Check if the skin is unlocked
         if (data.skinsUnlocked.Contains(skinIndex))
         {
+            selectSound.Stop();
+            selectSound.Play();
             data.currentlySelectedSkinIndex = skinIndex;
 
             SaveSystem.Save(data);
@@ -204,6 +239,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        GameManager.Instance.ButtonClickSound();
         SceneManager.LoadScene(gameSceneName);
     }
 }
