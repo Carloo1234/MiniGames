@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private int perfectsCount = 1;
     public bool perfectShot = true;
     public bool isPaused = false;
+    private bool isNewDay;
 
     [Header("Audio")]
     [SerializeField] AudioSource buttonClick;
@@ -41,6 +42,36 @@ public class GameManager : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    private void Start()
+    {
+        isNewDay = IsNewDay();
+        PlayerPrefs.SetString("LastActiveDate", System.DateTime.Now.ToString("yyyy-MM-dd"));
+        if (isNewDay) GenerateRandomQuest();
+    }
+
+    private bool IsNewDay()
+    {
+        string lastActiveDate = PlayerPrefs.GetString("LastActiveDate", string.Empty);
+        string currentDate = System.DateTime.Now.ToString("yyyy-MM-dd");
+        return lastActiveDate != currentDate;
+    }
+
+    private void GenerateRandomQuest()
+    {
+        int objectiveType = Random.Range(0, 2); // 0 for perfect hoopins, 1 for hoopins
+        int objectiveCount = Random.Range(20, 61); // Random number between 5 and 20
+        int coinReward = Random.Range(20, 61); // Random number between 20 and 50
+
+        PlayerPrefs.SetInt("ObjectiveType", objectiveType);
+        PlayerPrefs.SetInt("ObjectiveCount", objectiveCount);
+        PlayerPrefs.SetInt("CoinReward", coinReward);
+        PlayerPrefs.SetInt("DailyQuestCompleted", 0);
+        PlayerPrefs.SetInt("DailyHoopins", 0);
+        PlayerPrefs.SetInt("DailyPerfectHoopins", 0);
+
+    }
+
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -71,8 +102,6 @@ public class GameManager : MonoBehaviour
         GameData data = SaveSystem.Load() ?? new GameData();
         highScore = data.highScore;
         totalScore = data.totalScore;
-        //highScore = PlayerPrefs.GetInt("HighScore", 0);
-        //totalScore = PlayerPrefs.GetInt("TotalScore", 0);
     }
 
     public void AddCoin(GameObject coin)
@@ -96,6 +125,7 @@ public class GameManager : MonoBehaviour
 
         if (perfectShot)
         {
+            PlayerPrefs.SetInt("DailyPerfectHoopins", PlayerPrefs.GetInt("DailyPerfectHoopins") + 1);
             totalPerfectScore++;
             if (uiManager) uiManager.ShowPerfectText(hoopPosition);
 
@@ -105,9 +135,13 @@ public class GameManager : MonoBehaviour
                 multiplyer++;
                 if (uiManager) uiManager.ShowComboText(multiplyer);
             }
+            GameData data = SaveSystem.Load() ?? new GameData();
+            data.totalPerfectScore++;
+            SaveSystem.Save(data);
         }
         else
         {
+            PlayerPrefs.SetInt("DailyHoopins", PlayerPrefs.GetInt("DailyHoopins") + 1);
             if (uiManager) uiManager.HideComboText();
             multiplyer = 1;
             perfectsCount = 1;
@@ -117,11 +151,12 @@ public class GameManager : MonoBehaviour
 
         totalScore += 1 * multiplyer;
         SaveSystem.UpdateTotalScore(totalScore);
-        //PlayerPrefs.SetInt("TotalScore", totalScore);
-        //PlayerPrefs.Save();
+
 
         if (uiManager) uiManager.UpdateScoreUI(currentScore);
         perfectShot = true;
+
+        PlayerPrefs.Save();
     }
 
     public void PauseGame()
@@ -133,10 +168,14 @@ public class GameManager : MonoBehaviour
         {
             uiManager.ShowPauseUI(currentScore);
         }
+        PlayerPrefs.Save();
     }
 
     public void GameOver()
     {
+        GameData data = SaveSystem.Load() ?? new GameData();
+        data.totalGamesPlayed++;
+        SaveSystem.Save(data);
         if (isGameOver) return;
 
         isGameOver = true;
@@ -146,9 +185,7 @@ public class GameManager : MonoBehaviour
         {
             highScore = currentScore;
             SaveSystem.UpdateHighScore(highScore);
-            //PlayerPrefs.SetInt("HighScore", highScore);
         }
-        //PlayerPrefs.Save();
 
         if (uiManager != null)
         {
@@ -176,4 +213,5 @@ public class GameManager : MonoBehaviour
         buttonClick.Stop();
         buttonClick.Play();
     }
+    
 }

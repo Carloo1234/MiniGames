@@ -9,14 +9,15 @@ using System.Collections.Generic;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Menu Stuff")]
-    [SerializeField] private TMP_Text highScoreText;
-    [SerializeField] private TMP_Text totalScoreText;
     [SerializeField] private string gameSceneName = "GameScene";
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject shopMenuCanvas;
     [SerializeField] private GameObject codeMenuCanvas;
+    [SerializeField] private GameObject questMenuCanvas;
+    [SerializeField] private GameObject statsMenuCanvas;
     [SerializeField] private TMP_InputField codeText;
     [SerializeField] private Image selectedPlayerSprite;
+    [SerializeField] private TMP_Text menuCoinsText;
     [Header("Shop stuff")]
     [SerializeField] private Transform skinsParent;
     [SerializeField] private TMP_Text shopCoinsText;
@@ -30,8 +31,98 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] float shakeDuration = 0.5f; 
     [SerializeField] float shakeStrength = 10f; 
 
+
     private List<int> skinsUnlocked;
     private int currentlySelectedSkin = 0;
+
+    [Header("Quest Stuff")]
+    [SerializeField] private TMP_Text taskDetailText;
+    [SerializeField] private TMP_Text taskStatsText;
+    [SerializeField] private TMP_Text rewardText;
+    [SerializeField] private GameObject claimButton;
+    [SerializeField] private GameObject claimedButton;
+    [SerializeField] private GameObject questCompleteIndicator;
+
+    [Header("Stats")]
+    [SerializeField] private TMP_Text totalGamesPlayedText;
+    [SerializeField] private TMP_Text totalPerfectScore;
+    [SerializeField] private TMP_Text totalScore;
+    [SerializeField] private TMP_Text highScoreText;
+
+
+
+
+
+
+    public void StatsButtonClicked()
+    {
+        GameManager.Instance.ButtonClickSound();
+        statsMenuCanvas.SetActive(true);
+        mainMenuCanvas.SetActive(false);
+        GameData data = SaveSystem.Load() ?? new GameData();
+        totalGamesPlayedText.text = "Total-Games-Played: " + data.totalGamesPlayed;
+        totalPerfectScore.text = "Total-Perfect-Score: " + data.totalPerfectScore;
+        totalScore.text = "Total-Score: " + data.totalScore;
+        highScoreText.text = "High-Score: " + data.highScore;
+    }
+    public void QuestButtonClicked()
+    {
+        GameManager.Instance.ButtonClickSound();
+        questMenuCanvas.SetActive(true);
+        mainMenuCanvas.SetActive(false);
+        int objectiveType = PlayerPrefs.GetInt("ObjectiveType", 0);
+        int objectiveCount = PlayerPrefs.GetInt("ObjectiveCount", 0);
+        int coinReward = PlayerPrefs.GetInt("CoinReward", 0);
+        bool dailyQuestCompleted = PlayerPrefs.GetInt("DailyQuestCompleted", 0) == 1;
+        int currentProgress = 0;
+        if(objectiveType == 0)
+        {
+            taskDetailText.text = $"Score {objectiveCount} Hoop-ins";
+            currentProgress = PlayerPrefs.GetInt("DailyHoopins", 0);
+        }
+        else
+        {
+            currentProgress = PlayerPrefs.GetInt("DailyPerfectHoopins", 0);
+            taskDetailText.text = $"Score {objectiveCount} Perfect Hoop-ins";
+        }
+        
+        taskStatsText.text = $"{Mathf.Min(currentProgress, objectiveCount)}/{objectiveCount}";
+        rewardText.text = $"Reward: {coinReward}";
+
+        if (dailyQuestCompleted)
+        {
+            claimButton.SetActive(false);
+            rewardText.transform.parent.gameObject.SetActive(false);
+            taskDetailText.transform.gameObject.SetActive(false);
+            questCompleteIndicator.SetActive(true);
+
+
+        }
+        else if (currentProgress >= objectiveCount)
+        {
+            claimButton.SetActive(true);
+            claimedButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            claimButton.SetActive(true);
+            claimButton.GetComponent<Button>().interactable = false;
+        }
+    }
+
+    public void ClaimReward()
+    {
+        GameManager.Instance.ButtonClickSound();
+        GameData data = SaveSystem.Load() ?? new GameData();
+        int coinReward = PlayerPrefs.GetInt("CoinReward", 0);
+        int totalCoins = data.totalCoins;
+        totalCoins += coinReward;
+        SaveSystem.UpdateTotalCoins(totalCoins);
+        PlayerPrefs.SetInt("DailyQuestCompleted", 1);
+        claimButton.SetActive(false);
+        claimedButton.SetActive(true);
+        UpdateCoinsDisplay();
+    }
 
     private void Start()
     {
@@ -40,29 +131,17 @@ public class MainMenuManager : MonoBehaviour
         selectedPlayerSprite.sprite = skinData.skins[currentlySelectedSkin].sprite;
         mainMenuCanvas.SetActive(true);
         shopMenuCanvas.SetActive(false);
-        UpdateHighScoreDisplay();
-        UpdateTotalScoreDisplay();
+        UpdateCoinsDisplay();
     }
 
-    private void UpdateHighScoreDisplay()
-    {
-        GameData data = SaveSystem.Load() ?? new GameData();
-        int highScore = data.highScore;
-        //int highScore = PlayerPrefs.GetInt("HighScore", 0);
-        if (highScoreText != null)
-        {
-            highScoreText.text = "High Score: " + highScore.ToString();
-        }
-    }
 
-    private void UpdateTotalScoreDisplay()
+    private void UpdateCoinsDisplay()
     {
         GameData data = SaveSystem.Load() ?? new GameData();
-        int totalScore = data.totalScore;
-        //int totalScore = PlayerPrefs.GetInt("TotalScore", 0);
-        if (totalScoreText != null)
+        int totalCoins = data.totalCoins;
+        if (menuCoinsText != null)
         {
-            totalScoreText.text = "Total Score: " + totalScore.ToString();
+            menuCoinsText.text = totalCoins.ToString();
         }
     }
 
@@ -114,9 +193,10 @@ public class MainMenuManager : MonoBehaviour
         if (mainMenuCanvas) mainMenuCanvas.SetActive(true);
         if (shopMenuCanvas) shopMenuCanvas.SetActive(false);
         if (codeMenuCanvas) codeMenuCanvas.SetActive(false);
+        if (questMenuCanvas) questMenuCanvas.SetActive(false);
+        if (statsMenuCanvas) statsMenuCanvas.SetActive(false);
         selectedPlayerSprite.sprite = skinData.skins[currentlySelectedSkin].sprite;
-        UpdateHighScoreDisplay();
-        UpdateTotalScoreDisplay();
+        UpdateCoinsDisplay();
     }
 
     private void InitializeShop()

@@ -346,13 +346,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cloud
+      name: Claim button
       rect:
         serializedVersion: 2
-        x: 151
-        y: 131
-        width: 506
-        height: 315
+        x: 0
+        y: 422
+        width: 674
+        height: 205
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -362,6 +362,174 @@ TextureImporter:
       bones: []
       spriteID: 99653a13ba9a77d4b90c4231dd44b62e
       internalID: 81775988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Claimed button
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 213
+        width: 674
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af7069f64c8cbf74dab22b166e8f532e
+      internalID: 844925777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Quests button
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3
+        width: 674
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e34aaa1b62ee4f42b6bb3eaa0e70219
+      internalID: -2003744855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Quest container
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 1158
+        width: 1140
+        height: 290
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2386bafafed9f1c408d28a6ec7baadeb
+      internalID: 1179476817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: X button
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 1553
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0da3f774baab73d4fb4f4620031cab6d
+      internalID: -402387984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Quest button
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 1792
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce73d2816c95e264d9fd9bc69fc3c7df
+      internalID: 1753796058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stats button
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 856
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 631c9ae881a936a4e99059b291cbeea0
+      internalID: 1053268521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coin panel
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 1471
+        width: 196
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25d0c1f9698f0684383383bf810241a9
+      internalID: -2026555557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Settings button
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 631
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bcd7c5ceb755824e911e6057d6c9431
+      internalID: -278692271
       vertices: []
       indices: 
       edges: []
@@ -378,16 +546,25 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Buy button: 730984895
-      Cloud: 81775988
+      Claim button: 81775988
+      Claimed button: 844925777
+      Coin panel: -2026555557
+      Green check: -522577692
       Home button: 1500336909
       Panel: -2001465267
       Play Button: 2041873649
+      Quest button: 1753796058
+      Quest container: 1179476817
+      Quests button: -2003744855
       Restart button: 788760994
       Resume button: 1116374956
       Select button: -872274294
       Selected button: 130394287
+      Settings button: -278692271
       Shop Button: 707958031
       Skin container: 1741994109
+      Stats button: 1053268521
+      X button: -402387984
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

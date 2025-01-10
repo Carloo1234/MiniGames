@@ -28,6 +28,12 @@ MonoBehaviour:
   - name: King
     price: 100
     sprite: {fileID: 21300000, guid: 57d118ee4245076489fc6f89c6d417b4, type: 3}
+  - name: Emojy
+    price: 150
+    sprite: {fileID: 21300000, guid: 05efaa883300aba49b3f9af4a5e0816a, type: 3}
   - name: Fireball
     price: 200
     sprite: {fileID: 21300000, guid: f1f8d1dda3a875a4d94fec72873d5c33, type: 3}
+  - name: Earth
+    price: 300
+    sprite: {fileID: 21300000, guid: 6f66997a83b36c44385e9cf348e78e2a, type: 3}
