@@ -286,10 +286,10 @@ TextureImporter:
       name: Panel
       rect:
         serializedVersion: 2
-        x: 1087
-        y: 16
-        width: 903
-        height: 1102
+        x: 1103
+        y: 27
+        width: 874
+        height: 1075
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -534,6 +534,132 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Red indicator
+      rect:
+        serializedVersion: 2
+        x: 1166
+        y: 1902
+        width: 90
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe290d04391acfa4da1a56c3bf5eaa8a
+      internalID: 394270018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stopwatch frame
+      rect:
+        serializedVersion: 2
+        x: 958
+        y: 1480
+        width: 68
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55f2464c8269453478204f52141b1fbd
+      internalID: 937843323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stopwatch hand
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 1510
+        width: 22
+        height: 8
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fb4f6e3fdf1a2f4a81f3dfad74774af
+      internalID: -443119477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slider Bg
+      rect:
+        serializedVersion: 2
+        x: 1367
+        y: 1464
+        width: 582
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae5970b61862c1247a19537e1ec376d7
+      internalID: 731980865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slider Knob
+      rect:
+        serializedVersion: 2
+        x: 1224
+        y: 1457
+        width: 67
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11f7b0d2d74ffc94d9620e345a2aff62
+      internalID: 323267644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slider Outline
+      rect:
+        serializedVersion: 2
+        x: 1361
+        y: 1104
+        width: 594
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fd3e20fadbf4a34db68b4c63ca6561f
+      internalID: -1151628317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -556,6 +682,7 @@ TextureImporter:
       Quest button: 1753796058
       Quest container: 1179476817
       Quests button: -2003744855
+      Red indicator: 394270018
       Restart button: 788760994
       Resume button: 1116374956
       Select button: -872274294
@@ -563,7 +690,12 @@ TextureImporter:
       Settings button: -278692271
       Shop Button: 707958031
       Skin container: 1741994109
+      Slider Bg: 731980865
+      Slider Knob: 1184109367
+      Slider Outline: -1151628317
       Stats button: 1053268521
+      Stopwatch frame: 937843323
+      Stopwatch hand: -443119477
       X button: -402387984
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

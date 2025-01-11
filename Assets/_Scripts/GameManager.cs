@@ -39,17 +39,11 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void Start()
-    {
         isNewDay = IsNewDay();
         PlayerPrefs.SetString("LastActiveDate", System.DateTime.Now.ToString("yyyy-MM-dd"));
         if (isNewDay) GenerateRandomQuest();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
     private bool IsNewDay()
     {
         string lastActiveDate = PlayerPrefs.GetString("LastActiveDate", string.Empty);
@@ -60,8 +54,8 @@ public class GameManager : MonoBehaviour
     private void GenerateRandomQuest()
     {
         int objectiveType = Random.Range(0, 2); // 0 for perfect hoopins, 1 for hoopins
-        int objectiveCount = Random.Range(20, 61); // Random number between 5 and 20
-        int coinReward = Random.Range(20, 61); // Random number between 20 and 50
+        int objectiveCount = Random.Range(30, 101);
+        int coinReward = Random.Range(20, 61);
 
         PlayerPrefs.SetInt("ObjectiveType", objectiveType);
         PlayerPrefs.SetInt("ObjectiveCount", objectiveCount);
@@ -126,6 +120,7 @@ public class GameManager : MonoBehaviour
         if (perfectShot)
         {
             PlayerPrefs.SetInt("DailyPerfectHoopins", PlayerPrefs.GetInt("DailyPerfectHoopins") + 1);
+            PlayerPrefs.SetInt("DailyHoopins", PlayerPrefs.GetInt("DailyHoopins") + 1);
             totalPerfectScore++;
             if (uiManager) uiManager.ShowPerfectText(hoopPosition);
 
